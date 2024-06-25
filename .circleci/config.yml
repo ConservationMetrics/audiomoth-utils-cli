@@ -1,0 +1,64 @@
+version: 2.1
+
+orbs:
+  github-cli: circleci/github-cli@2.3.0
+
+jobs:
+  build:
+    docker:
+      - image: cimg/node:14.0
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm ci
+      - run:
+          name: Build binaries
+          command: npm run build
+      - run:
+          name: Compress binaries
+          command: |
+            cp audiomoth-utils-cli-linux audiomoth-utils && zip -m audiomoth-utils-cli-linux-x64.zip audiomoth-utils
+            cp audiomoth-utils-cli-win.exe audiomoth-utils.exe && zip -m audiomoth-utils-cli-windows-x64.zip audiomoth-utils.exe
+      - persist_to_workspace:
+          root: dist
+          paths:
+            - audiomoth-utils-cli-linux-x64.zip
+            - audiomoth-utils-cli-windows-x64.zip
+
+  release:
+    docker:
+      - image: cimg/node:14.0
+    steps:
+      - checkout
+      - attach_workspace:
+          at: dist
+      - github-cli/install
+      - run:
+          name: Create release
+          command: |
+            AUDIOMOTH_UTILS_VERSION=$(node -p "require('./package.json').dependencies['audiomoth-utils']")
+            BUILD_DATESTAMP=$(date '+%y%m%d%H')
+            VERSION="${BUILD_DATESTAMP}-${AUDIOMOTH_UTILS_VERSION}"
+            gh release create v$VERSION dist/*.zip
+
+workflows:
+  build-and-release:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: main
+      - hold:
+          type: approval
+          requires:
+            - build
+          filters:
+            branches:
+              only: main
+      - release:
+          requires:
+            - hold
+          filters:
+            branches:
+              only: main
