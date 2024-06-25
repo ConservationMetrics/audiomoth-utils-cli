@@ -45,20 +45,17 @@ jobs:
 workflows:
   build-and-release:
     jobs:
-      - build:
-          filters:
-            branches:
-              only: main
+      - build
       - hold:
           type: approval
           requires:
             - build
           filters:
             branches:
-              only: main
+              only: circleci-build-release
       - release:
           requires:
             - hold
           filters:
             branches:
-              only: main
+              only: circleci-build-release
