@@ -10,6 +10,7 @@
     "build": "pkg . --targets node14-linux-x64,node14-win-x64 --out-path  dist"
   },
   "dependencies": {
+    "audiomoth-utils": "1.5.0",
     "commander": "^12.1.0"
   },
   "devDependencies": {
