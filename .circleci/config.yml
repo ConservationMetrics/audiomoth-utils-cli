@@ -19,17 +19,21 @@ jobs:
       - run:
           name: Build binaries
           command: npm run build
-      - run:
-          name: Compress binaries
-          command: |
-            cd dist
-            cp audiomoth-utils-cli-linux audiomoth-utils && zip -m audiomoth-utils-cli-linux-x64.zip audiomoth-utils
-            cp audiomoth-utils-cli-win.exe audiomoth-utils.exe && zip -m audiomoth-utils-cli-windows-x64.zip audiomoth-utils.exe
-      - persist_to_workspace:
-          root: dist
-          paths:
-            - audiomoth-utils-cli-linux-x64.zip
-            - audiomoth-utils-cli-windows-x64.zip
+      - when:  # saving binaries to workspace is only useful on main branch, from which they might be released
+          condition:
+            equal: [ main, << pipeline.git.branch >> ]
+          steps:
+            - run:
+                name: Compress binaries
+                command: |
+                  cd dist
+                  cp audiomoth-utils-cli-linux audiomoth-utils && zip -m audiomoth-utils-cli-linux-x64.zip audiomoth-utils
+                  cp audiomoth-utils-cli-win.exe audiomoth-utils.exe && zip -m audiomoth-utils-cli-windows-x64.zip audiomoth-utils.exe
+            - persist_to_workspace:
+                root: dist
+                paths:
+                  - audiomoth-utils-cli-linux-x64.zip
+                  - audiomoth-utils-cli-windows-x64.zip
 
   release:
     docker:
