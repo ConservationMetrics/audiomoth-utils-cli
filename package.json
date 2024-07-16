@@ -3,17 +3,19 @@
   "version": "1.0.0",
   "description": "A thin CLI wrapper over AudioMoth-Utils",
   "bin": {
-    "hello-world": "./bin/audiomoth-utils.js"
+    "audiomoth-utils": "./bin/cli.js"
   },
   "scripts": {
-    "start": "node ./bin/audiomoth-utils.js",
-    "build": "pkg . --targets node14-linux-x64,node14-win-x64 --out-path  dist"
+    "start": "node ./bin/cli.js",
+    "build": "pkg . --targets node14-linux-x64,node14-win-x64 --out-path dist",
+    "test": "jest"
   },
   "dependencies": {
     "audiomoth-utils": "1.5.0",
     "commander": "^12.1.0"
   },
   "devDependencies": {
+    "jest": "^29.7.0",
     "pkg": "^5.8.1"
   }
 }
