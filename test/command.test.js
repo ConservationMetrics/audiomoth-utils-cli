@@ -7,11 +7,24 @@ jest.mock("audiomoth-utils", () => ({
 }));
 
 describe("audiomoth-utils CLI", () => {
+  let originalExitCode;
+
+  beforeAll(() => {
+    // Since the application code under test may override process.exitCode,
+    // save the original process.exitCode, so it may be replaced (i.e. on the
+    // jest process itself) after our application code is tested.
+    originalExitCode = process.exitCode;
+  });
+
+  afterAll(() => {
+    // Restore the original process.exitCode
+    process.exitCode = originalExitCode;
+  });
+
   beforeEach(() => {
     audiomothUtils.expand.mockClear();
     console.log = jest.fn();
     console.error = jest.fn();
-    process.exitCode = jest.fn();
   });
 
   test("calling with no arguments is same as calling with explicit values (the defaults)", () => {
