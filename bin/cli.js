@@ -7,18 +7,9 @@ function main() {
   try {
     program.parse(process.argv);
   } catch (err) {
-    if (err instanceof Error) {
-      //   if (program.opts().debug) {
-      //     console.error(`${err.stack}`);
-      //   }
-      //   if (err.message !== util.suppressTerminateExceptionMessage) {
-      console.log(`caught exception with message ${err.message}`);
-      //   }
-    } else {
-      throw err;
-    }
+    console.error("exception:", err);
     // Recommended practice for node is set exitcode not force exit
-    process.exitCode = 7; // Exit with code 7 if an exception occurred
+    process.exitCode = 8; // Exit with code 8 if an exception occurred
   }
 }
 
