@@ -15,7 +15,7 @@
     "commander": "^12.1.0"
   },
   "devDependencies": {
-    "jest": "^29.7.0",
+    "jest": "^30.0.4",
     "pkg": "^5.8.1"
   }
 }
