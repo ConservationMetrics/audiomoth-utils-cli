@@ -14,7 +14,6 @@ Neither JavaScript experience nor Node.js is required to use this tool.
 
 To see the available commands and options:
 
-
 ```bash
 $ audiomoth-utils --help
 ```
@@ -25,6 +24,15 @@ This will display the full usage information and available options.
 
 Currently, the CLI supports a subset of the functionality provided by the upstream AudioMoth-Utils node library.
 We aspire to gradually ramp up to provide full coverage in future releases.
+
+## Versioning
+
+To check the upstream version of the AudioMoth-Utils node library wrapped by this CLI:
+
+```bash
+$ audiomoth-utils --version
+```
+
 
 ## License
 
