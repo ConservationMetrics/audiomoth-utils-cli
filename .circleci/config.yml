@@ -24,16 +24,13 @@ jobs:
             equal: [ main, << pipeline.git.branch >> ]
           steps:
             - run:
-                name: Compress binaries
-                command: |
-                  cd dist
-                  cp audiomoth-utils-cli-linux audiomoth-utils && zip -m audiomoth-utils-cli-linux-x64.zip audiomoth-utils
-                  cp audiomoth-utils-cli-win.exe audiomoth-utils.exe && zip -m audiomoth-utils-cli-windows-x64.zip audiomoth-utils.exe
+                name: Build and compress binaries
+                command: npm run build:zip
             - persist_to_workspace:
                 root: dist
                 paths:
-                  - audiomoth-utils-cli-linux-x64.zip
-                  - audiomoth-utils-cli-windows-x64.zip
+                  - audiomoth-utils-cli-linux-x64-v*.zip
+                  - audiomoth-utils-cli-windows-x64-v*.zip
 
   release:
     docker:
