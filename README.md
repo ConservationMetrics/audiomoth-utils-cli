@@ -25,6 +25,30 @@ This will display the full usage information and available options.
 Currently, the CLI supports a subset of the functionality provided by the upstream AudioMoth-Utils node library.
 We aspire to gradually ramp up to provide full coverage in future releases.
 
+## Development
+
+### Building
+
+To build the CLI binaries:
+
+```bash
+$ npm run build
+```
+
+This will create platform-specific binaries in the `dist/` directory.
+
+To build and create versioned zip files for distribution:
+
+```bash
+$ npm run build:zip
+```
+
+This creates zip files like `audiomoth-utils-cli-linux-x64-v1.5.0.zip` that include the upstream library version in the filename.
+
+### Version Safety
+
+The build process includes automatic checks to ensure the installed `audiomoth-utils` version matches what's specified in `package.json`. This prevents distributing binaries with mismatched library versions.
+
 ## Versioning
 
 To check the upstream version of the AudioMoth-Utils node library wrapped by this CLI:
