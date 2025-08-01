@@ -1,0 +1,72 @@
+name: Build and Release
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.4.1'
+
+      - name: Install dependencies
+        run: npm install --no-save
+
+      - name: Test
+        run: npm test
+
+      - name: Build and compress binaries
+        run: npm run build:zip
+
+      - name: Upload binaries as artifacts
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v4
+        with:
+          name: binaries
+          path: |
+            dist/audiomoth-utils-cli-linux-x64-v*.zip
+            dist/audiomoth-utils-cli-windows-x64-v*.zip
+
+  hold:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment: production
+    steps:
+      - name: Manual approval required
+        run: echo "Manual approval completed"
+
+  release:
+    needs: hold
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.4.1'
+
+      - name: Download binaries
+        uses: actions/download-artifact@v4
+        with:
+          name: binaries
+          path: dist
+
+      - name: Create release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          AUDIOMOTH_UTILS_VERSION=$(node -p "require('./package.json').dependencies['audiomoth-utils']")
+          BUILD_DATESTAMP=$(date '+%y%m%d%H')
+          VERSION="v${BUILD_DATESTAMP}-${AUDIOMOTH_UTILS_VERSION}"
+          gh release create $VERSION dist/*.zip --title "$VERSION" --generate-notes
