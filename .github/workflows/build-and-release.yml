@@ -34,18 +34,10 @@ jobs:
             dist/audiomoth-utils-cli-linux-x64-v*.zip
             dist/audiomoth-utils-cli-windows-x64-v*.zip
 
-  hold:
+  release:
     needs: build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    environment: production
-    steps:
-      - name: Manual approval required
-        run: echo "Manual approval completed"
-
-  release:
-    needs: hold
-    runs-on: ubuntu-latest
+    environment: production  # GH Repo's "Environments" specify that "production" requires certain people to approve runs, acting as a "Hold before release"
     if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout code
