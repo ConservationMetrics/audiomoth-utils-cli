@@ -9,7 +9,7 @@
     "start": "node ./bin/cli.js",
     "prebuild": "node ./scripts/check-dependencies.js",
     "build": "pkg . --targets node14-linux-x64,node14-win-x64 --out-path dist",
-    "build:zip": "pnpm run build && node ./scripts/create-zip.js",
+    "build:zip": "npm run build && node ./scripts/create-zip.js",
     "test": "jest"
   },
   "dependencies": {
