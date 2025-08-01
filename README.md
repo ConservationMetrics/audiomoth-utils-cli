@@ -1,6 +1,6 @@
 # AudioMoth-Utils CLI
 
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/ConservationMetrics/audiomoth-utils-cli/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/ConservationMetrics/audiomoth-utils-cli/tree/main)
+[![Build and Release](https://github.com/ConservationMetrics/audiomoth-utils-cli/actions/workflows/build-and-release.yml/badge.svg)](https://github.com/ConservationMetrics/audiomoth-utils-cli/actions/workflows/build-and-release.yml)
 
 This code is a thin command-line wrapper over the [AudioMoth-Utils node library by OpenAcousticDevices](https://github.com/OpenAcousticDevices/AudioMoth-Utils).
 
