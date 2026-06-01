@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "audiomoth-utils": "1.7.1",
-    "commander": "^14.0.0"
+    "commander": "^15.0.0"
   },
   "devDependencies": {
     "jest": "^30.0.4",
